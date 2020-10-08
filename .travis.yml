@@ -43,6 +43,9 @@ deploy:
       - build/dblock-windows-386.md5
       - build/dblock-windows-386.sha256
       - build/dblock-windows-386
+      - build/dblock-darwin-amd64.md5
+      - build/dblock-darwin-amd64.sha256
+      - build/dblock-darwin-amd64
     skip_cleanup: true
     on:
       tags: true
