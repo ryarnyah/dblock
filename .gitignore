@@ -1,0 +1,5 @@
+build
+.vscode
+.database.lock
+coverage.txt
+.new-schema.json

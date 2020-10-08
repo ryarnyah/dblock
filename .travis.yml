@@ -1,0 +1,53 @@
+---
+sudo: required
+
+services:
+  - docker
+
+language: go
+sudo: true
+notifications:
+  email: true
+go:
+  - "1.15.x"
+env:
+  global:
+    - GO111MODULE=on
+    - GO15VENDOREXPERIMENT=1
+install:
+  - make dev-dependencies
+script:
+  - make
+  - make cover
+  - make release
+deploy:
+  - provider: releases
+    api_key:
+      secure: "dWjRe64qxmNILYmRwBIyd8E6arhWCL3t9IgPjwumYSmU0rQ/DPKXz0neCpLyn+BoaRE/CpcYSK++JG9u03iQS7U+5+EdwT7u/dpiajUkp008MuU6gx3QsnC0u18JFTis7eDBh6aXWO+HKLOd30IOdrAcWD2f84yIDZedKKlSOVtoSvKhPDd0dQEoqgLz0kURJCWtpd30FObnJu4rc8mFarr0B36/juRLhcxiwBYsyoKlSftmY2mt7muEWFTQr+8k+oMpxNsqwvNCvvjgbVev5SQjRRQl93w2NtQMqf6JUzvyT3gw8uHbDmULU9VN8eW1h5jGvDZYJ8LYX9853V/a/W85ab1UM9Mz4W+uugu+zMLoAjRL3wD1NgPZCu8jesGb6Oxwpm7hrw3ZZa5SF4Urgvzs2IJOxLpovyrU8YIAYXBBR5sdAVdFv2Qe9PRn+YVVSvJlUDsnVwO6NImjYCXBEvmzmnfn0ibJ73zi9cbZ4Gr+sF115gMM/SI//iVk9xvtyCAYmFyzdPu3lsvnR6EdRN65iX7A8Rf6fgEDYo65tZIxM9HeaOgNWRXuZVQyjzGEtklU4y0CetUY8WgxvxXedgBOFfcAO5499pWJ2TK7OilDtRaDUGRUXEzX24Qi0FsPKoLlacMIyyZJjoncRhhrjCPdyfO8FMqU4t/uTjg7bjI="
+    file:
+      - build/dblock-linux-amd64.md5
+      - build/dblock-linux-amd64.sha256
+      - build/dblock-linux-amd64
+      - build/dblock-linux-386.md5
+      - build/dblock-linux-386.sha256
+      - build/dblock-linux-386
+      - build/dblock-linux-arm.md5
+      - build/dblock-linux-arm.sha256
+      - build/dblock-linux-arm
+      - build/dblock-linux-arm64.md5
+      - build/dblock-linux-arm64.sha256
+      - build/dblock-linux-arm64
+      - build/dblock-windows-amd64.md5
+      - build/dblock-windows-amd64.sha256
+      - build/dblock-windows-amd64
+      - build/dblock-windows-386.md5
+      - build/dblock-windows-386.sha256
+      - build/dblock-windows-386
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: bash deploy/deploy.sh
+    on:
+      tags: true
