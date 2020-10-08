@@ -24,11 +24,11 @@ Tool to maintain compatibility beetween multiple SQL database versions.
 
 #### Binaries
 
-- **linux** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-linux-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-linux-386) [arm](https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-linux-arm) [arm64](https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-linux-arm64)
-- **windows** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-windows-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-windows-386)
+- **linux** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-386) [arm](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-arm) [arm64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-arm64)
+- **windows** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-windows-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-windows-386)
 
 ```bash
-sudo curl -L https://github.com/ryarnyah/dblock/releases/download/0.0.0/dblock-linux-amd64 -o /usr/local/bin/dblock && sudo chmod +x /usr/local/bin/dblock
+sudo curl -L https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-amd64 -o /usr/local/bin/dblock && sudo chmod +x /usr/local/bin/dblock
 ```
 
 #### Via Go
@@ -48,7 +48,7 @@ $ make
 
 #### Running with Docker
 ```bash
-docker run ryarnyah/dblock-linux-amd64:0.0.0 <option>
+docker run ryarnyah/dblock-linux-amd64:0.1.0 <option>
 ```
 
 ## Usage
@@ -61,7 +61,7 @@ ________ __________.____                  __
 /_______  /______  /_______ \____/ \___  >__|_ \
         \/       \/        \/          \/     \/
  Check db schema compatibility.
- Version: 0.0.0
+ Version: 0.1.0
  Build: a6d4ec3-dirty
 
   -alsologtostderr
