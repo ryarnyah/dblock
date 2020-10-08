@@ -26,6 +26,7 @@ Tool to maintain compatibility beetween multiple SQL database versions.
 
 - **linux** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-386) [arm](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-arm) [arm64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-arm64)
 - **windows** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-windows-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-windows-386)
+- **darwin** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-darwin-amd64)
 
 ```bash
 sudo curl -L https://github.com/ryarnyah/dblock/releases/download/0.1.0/dblock-linux-amd64 -o /usr/local/bin/dblock && sudo chmod +x /usr/local/bin/dblock

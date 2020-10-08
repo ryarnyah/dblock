@@ -27,7 +27,7 @@ GO_LDFLAGS=-ldflags "-w $(call CTIMEVAR,$(1))"
 GO_LDFLAGS_STATIC=-ldflags "-w $(call CTIMEVAR,$(1)) -extldflags -static"
 
 # List the GOOS and GOARCH to build
-GOOSARCHES = linux/amd64 linux/386 linux/arm linux/arm64 windows/amd64 windows/386
+GOOSARCHES = linux/amd64 linux/386 linux/arm linux/arm64 windows/amd64 windows/386 darwin/amd64
 
 all: clean build fmt lint test staticcheck vet ## Runs a clean, build, fmt, lint, test, staticcheck, vet
 
