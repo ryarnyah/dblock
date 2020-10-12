@@ -1,4 +1,4 @@
-package pg
+package mysql
 
 import (
 	"reflect"
@@ -22,7 +22,6 @@ func TestLoadDatabaseSchemaFromDatabase(t *testing.T) {
 		"data_type",
 		"character_maximum_length",
 		"numeric_precision",
-		"numeric_precision_radix",
 		"numeric_scale",
 		"character_octet_length",
 		"column_default",
@@ -36,7 +35,6 @@ func TestLoadDatabaseSchemaFromDatabase(t *testing.T) {
 		nil,
 		nil,
 		nil,
-		nil,
 		"",
 	).AddRow(
 		"test_schema",
@@ -47,7 +45,6 @@ func TestLoadDatabaseSchemaFromDatabase(t *testing.T) {
 		nil,
 		"12",
 		"2",
-		nil,
 		nil,
 		"12",
 	)
@@ -63,13 +60,13 @@ func TestLoadDatabaseSchemaFromDatabase(t *testing.T) {
 					Columns: []model.ColumnSchema{
 						{
 							ColunmName:         "test_column",
-							ColumnType:         "VARCHAR2|12||||",
+							ColumnType:         "VARCHAR2|12|||",
 							NullableConstraint: false,
 							HasDefaultValue:    false,
 						},
 						{
 							ColunmName:         "second_column",
-							ColumnType:         "INTEGER||12|2||",
+							ColumnType:         "INTEGER||12|2|",
 							NullableConstraint: true,
 							HasDefaultValue:    true,
 						},
@@ -79,7 +76,7 @@ func TestLoadDatabaseSchemaFromDatabase(t *testing.T) {
 		},
 	}
 
-	pgProvider := postgresProvider{}
+	pgProvider := mysqlProvider{}
 	schemas, err := pgProvider.getModel(db)
 	if err != nil {
 		t.Fatal(err)

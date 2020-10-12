@@ -1,4 +1,4 @@
-package pg
+package mysql
 
 import (
 	"database/sql"
@@ -9,29 +9,29 @@ import (
 	"github.com/ryarnyah/dblock/pkg/model"
 	"github.com/ryarnyah/dblock/pkg/provider"
 
-	// PostgreSQL driver
-	_ "github.com/lib/pq"
+	// MySQL driver
+	_ "github.com/go-sql-driver/mysql"
 )
 
 const (
-	postgresSelectAllColumns = `SELECT table_schema, table_name, column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_precision_radix, numeric_scale, character_octet_length, column_default
+	mysqlSelectAllColumns = `SELECT table_schema, table_name, column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_scale, character_octet_length, column_default
               FROM information_schema.columns
               ORDER BY table_schema, table_name, column_name`
 )
 
 var (
-	postgresConninfo     = flag.String("pg-conn-info", "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable password=postgres", "PostgreSQL connetion info")
-	postgresSchemaRegexp = flag.String("pg-schema-regexp", ".*", "Reex to filter schema to process")
+	mysqlConninfo     = flag.String("mysql-conn-info", "user:password@/dbname", "MysqlQL connetion info")
+	mysqlSchemaRegexp = flag.String("mysql-schema-regexp", ".*", "Regex to filter schema to process")
 )
 
-type postgresProvider struct{}
+type mysqlProvider struct{}
 
 func init() {
-	provider.RegisterProvider("postgres", postgresProvider{})
+	provider.RegisterProvider("mysql", mysqlProvider{})
 }
 
-func (s postgresProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
-	conn, err := sql.Open("postgres", *postgresConninfo)
+func (s mysqlProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
+	conn, err := sql.Open("mysql", *mysqlConninfo)
 	if err != nil {
 		return nil, err
 	}
@@ -45,15 +45,15 @@ func (s postgresProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
 	}, nil
 }
 
-func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
+func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 	m := make(map[string]map[string][]model.ColumnSchema)
-	rows, err := conn.Query(postgresSelectAllColumns)
+	rows, err := conn.Query(mysqlSelectAllColumns)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	matcher, err := regexp.Compile(*postgresSchemaRegexp)
+	matcher, err := regexp.Compile(*mysqlSchemaRegexp)
 	if err != nil {
 		return nil, err
 	}
@@ -64,11 +64,12 @@ func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 		var columnNameColumn sql.NullString
 		var isNullableColumn sql.NullString
 		var columnTypeColumn sql.NullString
+
 		var characterMaximumLengthColumn sql.NullString
 		var numericPrecisionColumn sql.NullString
-		var numericPrecisionRadixColumn sql.NullString
 		var numericScaleColumn sql.NullString
 		var characterOctetLengthColumn sql.NullString
+
 		var columnDefaultColumn sql.NullString
 
 		var schemaName string
@@ -76,11 +77,12 @@ func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 		var columnName string
 		var isNullable string
 		var columnType string
+
 		var characterMaximumLength string
 		var numericPrecision string
-		var numericPrecisionRadix string
-		var characterOctetLength string
 		var numericScale string
+		var characterOctetLength string
+
 		var columnDefault string
 
 		if err := rows.Scan(
@@ -91,7 +93,6 @@ func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 			&columnTypeColumn,
 			&characterMaximumLengthColumn,
 			&numericPrecisionColumn,
-			&numericPrecisionRadixColumn,
 			&numericScaleColumn,
 			&characterOctetLengthColumn,
 			&columnDefaultColumn,
@@ -101,9 +102,6 @@ func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 
 		if characterOctetLengthColumn.Valid {
 			characterOctetLength = characterOctetLengthColumn.String
-		}
-		if numericScaleColumn.Valid {
-			numericScale = numericScaleColumn.String
 		}
 		if schemaNameColumn.Valid {
 			schemaName = schemaNameColumn.String
@@ -129,8 +127,8 @@ func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 		if numericPrecisionColumn.Valid {
 			numericPrecision = numericPrecisionColumn.String
 		}
-		if numericPrecisionRadixColumn.Valid {
-			numericPrecisionRadix = numericPrecisionRadixColumn.String
+		if numericScaleColumn.Valid {
+			numericScale = numericScaleColumn.String
 		}
 
 		if !matcher.MatchString(schemaName) {
@@ -148,7 +146,6 @@ func (postgresProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 				columnType,
 				characterMaximumLength,
 				numericPrecision,
-				numericPrecisionRadix,
 				numericScale,
 				characterOctetLength,
 			}, "|"),

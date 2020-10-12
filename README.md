@@ -24,12 +24,12 @@ Tool to maintain compatibility beetween multiple SQL database versions.
 
 #### Binaries
 
-- **linux** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-linux-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-linux-386) [arm](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-linux-arm) [arm64](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-linux-arm64)
-- **windows** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-windows-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-windows-386)
-- **darwin** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-darwin-amd64)
+- **linux** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-linux-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-linux-386) [arm](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-linux-arm) [arm64](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-linux-arm64)
+- **windows** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-windows-amd64) [386](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-windows-386)
+- **darwin** [amd64](https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-darwin-amd64)
 
 ```bash
-sudo curl -L https://github.com/ryarnyah/dblock/releases/download/0.1.2/dblock-linux-amd64 -o /usr/local/bin/dblock && sudo chmod +x /usr/local/bin/dblock
+sudo curl -L https://github.com/ryarnyah/dblock/releases/download/0.2.0/dblock-linux-amd64 -o /usr/local/bin/dblock && sudo chmod +x /usr/local/bin/dblock
 ```
 
 #### Via Go
@@ -49,7 +49,7 @@ $ make
 
 #### Running with Docker
 ```bash
-docker run ryarnyah/dblock-linux-amd64:0.1.2 <option>
+docker run ryarnyah/dblock-linux-amd64:0.2.0 <option>
 ```
 
 ## Usage
@@ -62,7 +62,7 @@ ________ __________.____                  __
 /_______  /______  /_______ \____/ \___  >__|_ \
         \/       \/        \/          \/     \/
  Check db schema compatibility.
- Version: 0.1.2
+ Version: 0.2.0
  Build: a6d4ec3-dirty
 
   -alsologtostderr
@@ -79,12 +79,16 @@ ________ __________.____                  __
         If non-empty, write log files in this directory
   -logtostderr
         log to standard error instead of files
+  -mysql-conn-info string
+        MysqlQL connetion info (default "user:password@/dbname")
+  -mysql-schema-regexp string
+        Regex to filter schema to process (default ".*")
   -pg-conn-info string
         PostgreSQL connetion info (default "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable password=postgres")
   -pg-schema-regexp string
         Reex to filter schema to process (default ".*")
   -provider string
-        DB provider (supported values: postgres, file) (default "postgres")
+        DB provider (supported values: postgres, mysql, file) (default "postgres")
   -stderrthreshold value
         logs at or above this threshold go to stderr
   -v value
@@ -111,4 +115,12 @@ ________ __________.____                  __
         PostgreSQL connetion info (default "host=localhost port=5432 user=postgres dbname=postgres sslmo
   -pg-schema-regexp string
         Reex to filter schema to process (default ".*")
+```
+
+#### MySQL (-provider mysql)
+```bash
+  -mysql-conn-info string
+        MysqlQL connetion info (default "user:password@/dbname")
+  -mysql-schema-regexp string
+        Regex to filter schema to process (default ".*")
 ```
