@@ -79,6 +79,10 @@ ________ __________.____                  __
         If non-empty, write log files in this directory
   -logtostderr
         log to standard error instead of files
+  -mssql-conn-info string
+        Mssql connetion info (default "sqlserver://sa@localhost/SQLExpress?database=master&connection+timeout=30")
+  -mssql-schema-regexp string
+        Reex to filter schema to process (default ".*")
   -mysql-conn-info string
         MysqlQL connetion info (default "user:password@/dbname")
   -mysql-schema-regexp string
@@ -88,7 +92,7 @@ ________ __________.____                  __
   -pg-schema-regexp string
         Reex to filter schema to process (default ".*")
   -provider string
-        DB provider (supported values: postgres, mysql, file) (default "postgres")
+        DB provider (supported values: postgres, mysql, mssql, file) (default "postgres")
   -stderrthreshold value
         logs at or above this threshold go to stderr
   -v value
@@ -123,4 +127,12 @@ ________ __________.____                  __
         MysqlQL connetion info (default "user:password@/dbname")
   -mysql-schema-regexp string
         Regex to filter schema to process (default ".*")
+```
+
+#### MSSQL (-provider mssql)
+```bash
+  -mssql-conn-info string
+        Mssql connetion info (default "sqlserver://sa@localhost/SQLExpress?database=master&connection+timeout=30")
+  -mssql-schema-regexp string
+        Reex to filter schema to process (default ".*")
 ```
