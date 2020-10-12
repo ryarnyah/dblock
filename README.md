@@ -79,12 +79,16 @@ ________ __________.____                  __
         If non-empty, write log files in this directory
   -logtostderr
         log to standard error instead of files
+  -mysql-conn-info string
+        MysqlQL connetion info (default "user:password@/dbname")
+  -mysql-schema-regexp string
+        Regex to filter schema to process (default ".*")
   -pg-conn-info string
         PostgreSQL connetion info (default "host=localhost port=5432 user=postgres dbname=postgres sslmode=disable password=postgres")
   -pg-schema-regexp string
         Reex to filter schema to process (default ".*")
   -provider string
-        DB provider (supported values: postgres, file) (default "postgres")
+        DB provider (supported values: postgres, mysql, file) (default "postgres")
   -stderrthreshold value
         logs at or above this threshold go to stderr
   -v value
@@ -111,4 +115,12 @@ ________ __________.____                  __
         PostgreSQL connetion info (default "host=localhost port=5432 user=postgres dbname=postgres sslmo
   -pg-schema-regexp string
         Reex to filter schema to process (default ".*")
+```
+
+#### MySQL (-provider mysql)
+```bash
+  -mysql-conn-info string
+        MysqlQL connetion info (default "user:password@/dbname")
+  -mysql-schema-regexp string
+        Regex to filter schema to process (default ".*")
 ```
