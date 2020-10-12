@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	providerName   = flag.String("provider", "postgres", "DB provider (supported values: postgres, mysql, file)")
+	providerName   = flag.String("provider", "postgres", "DB provider (supported values: postgres, mysql, mssql, file)")
 	schemaLockFile = flag.String("database-lock-file", ".dblock.lock", "file where database schemas will be persisted")
 	errorFile      = flag.String("error-json-file", "", "JSON file to write all errors")
 	v              = flag.Bool("version", false, "Print version")

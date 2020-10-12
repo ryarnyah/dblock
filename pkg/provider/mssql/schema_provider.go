@@ -1,4 +1,4 @@
-package mysql
+package mssql
 
 import (
 	"database/sql"
@@ -9,12 +9,12 @@ import (
 	"github.com/ryarnyah/dblock/pkg/model"
 	"github.com/ryarnyah/dblock/pkg/provider"
 
-	// MySQL driver
-	_ "github.com/go-sql-driver/mysql"
+	// Mssql driver
+	_ "github.com/denisenkom/go-mssqldb"
 )
 
 const (
-	mysqlSelectAllColumns = `SELECT
+	mssqlSelectAllColumns = `SELECT
                 table_schema,
                 table_name,
                 column_name,
@@ -22,6 +22,7 @@ const (
                 data_type,
                 character_maximum_length,
                 numeric_precision,
+                numeric_precision_radix,
                 numeric_scale,
                 character_octet_length,
                 column_default
@@ -30,18 +31,18 @@ const (
 )
 
 var (
-	mysqlConninfo     = flag.String("mysql-conn-info", "user:password@/dbname", "Mysql connetion info")
-	mysqlSchemaRegexp = flag.String("mysql-schema-regexp", ".*", "Regex to filter schema to process")
+	mssqlConninfo     = flag.String("mssql-conn-info", "sqlserver://sa@localhost/SQLExpress?database=master&connection+timeout=30", "Mssql connetion info")
+	mssqlSchemaRegexp = flag.String("mssql-schema-regexp", ".*", "Reex to filter schema to process")
 )
 
-type mysqlProvider struct{}
+type mssqlProvider struct{}
 
 func init() {
-	provider.RegisterProvider("mysql", mysqlProvider{})
+	provider.RegisterProvider("mssql", mssqlProvider{})
 }
 
-func (s mysqlProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
-	conn, err := sql.Open("mysql", *mysqlConninfo)
+func (s mssqlProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
+	conn, err := sql.Open("mssql", *mssqlConninfo)
 	if err != nil {
 		return nil, err
 	}
@@ -55,15 +56,15 @@ func (s mysqlProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
 	}, nil
 }
 
-func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
+func (mssqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 	m := make(map[string]map[string][]model.ColumnSchema)
-	rows, err := conn.Query(mysqlSelectAllColumns)
+	rows, err := conn.Query(mssqlSelectAllColumns)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	matcher, err := regexp.Compile(*mysqlSchemaRegexp)
+	matcher, err := regexp.Compile(*mssqlSchemaRegexp)
 	if err != nil {
 		return nil, err
 	}
@@ -74,12 +75,11 @@ func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 		var columnNameColumn sql.NullString
 		var isNullableColumn sql.NullString
 		var columnTypeColumn sql.NullString
-
 		var characterMaximumLengthColumn sql.NullString
 		var numericPrecisionColumn sql.NullString
+		var numericPrecisionRadixColumn sql.NullString
 		var numericScaleColumn sql.NullString
 		var characterOctetLengthColumn sql.NullString
-
 		var columnDefaultColumn sql.NullString
 
 		var schemaName string
@@ -87,12 +87,11 @@ func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 		var columnName string
 		var isNullable string
 		var columnType string
-
 		var characterMaximumLength string
 		var numericPrecision string
-		var numericScale string
+		var numericPrecisionRadix string
 		var characterOctetLength string
-
+		var numericScale string
 		var columnDefault string
 
 		if err := rows.Scan(
@@ -103,6 +102,7 @@ func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 			&columnTypeColumn,
 			&characterMaximumLengthColumn,
 			&numericPrecisionColumn,
+			&numericPrecisionRadixColumn,
 			&numericScaleColumn,
 			&characterOctetLengthColumn,
 			&columnDefaultColumn,
@@ -112,6 +112,9 @@ func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 
 		if characterOctetLengthColumn.Valid {
 			characterOctetLength = characterOctetLengthColumn.String
+		}
+		if numericScaleColumn.Valid {
+			numericScale = numericScaleColumn.String
 		}
 		if schemaNameColumn.Valid {
 			schemaName = schemaNameColumn.String
@@ -137,8 +140,8 @@ func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 		if numericPrecisionColumn.Valid {
 			numericPrecision = numericPrecisionColumn.String
 		}
-		if numericScaleColumn.Valid {
-			numericScale = numericScaleColumn.String
+		if numericPrecisionRadixColumn.Valid {
+			numericPrecisionRadix = numericPrecisionRadixColumn.String
 		}
 
 		if !matcher.MatchString(schemaName) {
@@ -156,6 +159,7 @@ func (mysqlProvider) getModel(conn *sql.DB) ([]model.Schema, error) {
 				columnType,
 				characterMaximumLength,
 				numericPrecision,
+				numericPrecisionRadix,
 				numericScale,
 				characterOctetLength,
 			}, "|"),

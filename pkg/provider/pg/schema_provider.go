@@ -14,7 +14,18 @@ import (
 )
 
 const (
-	postgresSelectAllColumns = `SELECT table_schema, table_name, column_name, is_nullable, data_type, character_maximum_length, numeric_precision, numeric_precision_radix, numeric_scale, character_octet_length, column_default
+	postgresSelectAllColumns = `SELECT
+                table_schema,
+                table_name,
+                column_name,
+                is_nullable,
+                data_type,
+                character_maximum_length,
+                numeric_precision,
+                numeric_precision_radix,
+                numeric_scale,
+                character_octet_length,
+                column_default
               FROM information_schema.columns
               ORDER BY table_schema, table_name, column_name`
 )
