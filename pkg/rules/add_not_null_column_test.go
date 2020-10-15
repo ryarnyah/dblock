@@ -191,7 +191,7 @@ func TestAddNewColumn(t *testing.T) {
 				},
 			},
 			[]error{
-				errors.New("not null column ID2 of test.test added without default value"),
+				errors.New("[DCT02] not null column ID2 of test.test added without default value"),
 			},
 		},
 	}

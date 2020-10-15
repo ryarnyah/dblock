@@ -1,6 +1,8 @@
 package rules
 
-import "github.com/ryarnyah/dblock/pkg/model"
+import (
+	"github.com/ryarnyah/dblock/pkg/model"
+)
 
 // RegistredRules rules available
 var RegistredRules = make(map[string]Rule)
@@ -13,6 +15,11 @@ type Rule interface {
 // RegisterRule register rule to be processed
 func RegisterRule(code string, rule Rule) {
 	RegistredRules[code] = rule
+}
+
+// RuleError code + error
+type RuleError struct {
+	RuleCode string `json:"rule_code"`
 }
 
 func checkDatabaseSchemaTable(oldDatabase, newDatabase *model.DatabaseSchema, checkFunction func(model.Schema, model.TableSchema, model.TableSchema) []error) []error {

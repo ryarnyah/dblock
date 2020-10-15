@@ -62,7 +62,7 @@ func TestDeleteTable(t *testing.T) {
 				},
 			},
 			[]error{
-				errors.New("table test.test2 is absent in new schema"),
+				errors.New("[DT001] table test.test2 is absent in new schema"),
 			},
 		},
 	}

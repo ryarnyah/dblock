@@ -53,7 +53,7 @@ func TestChangeColumnType(t *testing.T) {
 				},
 			},
 			[]error{
-				errors.New("colunm ID type INTEGER of table test.test is incohérent in new type VARCHAR2"),
+				errors.New("[DCT01] colunm ID type INTEGER of table test.test is incohérent in new type VARCHAR2"),
 			},
 		},
 	}
