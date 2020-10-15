@@ -57,7 +57,7 @@ func TestDeleteColumn(t *testing.T) {
 				},
 			},
 			[]error{
-				errors.New("colunm NAME of table test.test is absent in new schema"),
+				errors.New("[DC001] colunm NAME of table test.test is absent in new schema"),
 			},
 		},
 	}
