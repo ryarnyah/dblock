@@ -1,4 +1,4 @@
-# DBLock [![Build Status](https://travis-ci.org/ryarnyah/dblock.svg?branch=master)](https://travis-ci.org/ryarnyah/dblock)
+# DBLock [![Build Status](https://github.com/ryarnyah/dblock/actions/workflows/build.yml/badge.svg)](https://github.com/ryarnyah/dblock/)
 
 ```bash
 ________ __________.____                  __
