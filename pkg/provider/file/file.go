@@ -3,7 +3,7 @@ package file
 import (
 	"encoding/json"
 	"flag"
-	"io/ioutil"
+	"os"
 
 	"github.com/ryarnyah/dblock/pkg/model"
 	"github.com/ryarnyah/dblock/pkg/provider"
@@ -20,7 +20,7 @@ func init() {
 }
 
 func (s fileProvider) GetCurrentModel() (*model.DatabaseSchema, error) {
-	b, err := ioutil.ReadFile(*fileSource)
+	b, err := os.ReadFile(*fileSource)
 	if err != nil {
 		return nil, err
 	}

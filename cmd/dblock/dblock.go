@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -42,7 +41,7 @@ func persistModel(m *model.DatabaseSchema) {
 	if err != nil {
 		glog.Fatal(err)
 	}
-	err = ioutil.WriteFile(*schemaLockFile, b, 0644)
+	err = os.WriteFile(*schemaLockFile, b, 0644)
 	if err != nil {
 		glog.Fatal(err)
 	}
@@ -50,7 +49,10 @@ func persistModel(m *model.DatabaseSchema) {
 }
 
 func main() {
-	flag.Set("logtostderr", "true")
+	err := flag.Set("logtostderr", "true")
+	if err != nil {
+		glog.Fatal(err.Error())
+	}
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, BANNER, version.VERSION, version.GITCOMMIT)
 		flag.PrintDefaults()
@@ -75,7 +77,7 @@ func main() {
 	if err != nil {
 		glog.Fatal(err)
 	}
-	b, err := ioutil.ReadFile(*schemaLockFile)
+	b, err := os.ReadFile(*schemaLockFile)
 	if err != nil {
 		glog.Fatal(err)
 	}
@@ -100,7 +102,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		err = ioutil.WriteFile(*errorFile, b, 0644)
+		err = os.WriteFile(*errorFile, b, 0644)
 		if err != nil {
 			log.Fatal(err)
 		}

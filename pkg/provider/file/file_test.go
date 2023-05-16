@@ -2,7 +2,6 @@ package file
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"reflect"
 	"testing"
@@ -22,14 +21,14 @@ func TestFileNotFound(t *testing.T) {
 
 func TestDefunctFile(t *testing.T) {
 	fileProvider := fileProvider{}
-	f, err := ioutil.TempFile("", "test-file")
+	f, err := os.CreateTemp("", "test-file")
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer os.Remove(f.Name())
 	*fileSource = f.Name()
 
-	f.WriteString("very bad file")
+	_, _ = f.WriteString("very bad file")
 	_, err = fileProvider.GetCurrentModel()
 	if err == nil {
 		t.Fatal("must be unable to parse file")
@@ -38,7 +37,7 @@ func TestDefunctFile(t *testing.T) {
 
 func TestLoadModelFromFile(t *testing.T) {
 	fileProvider := fileProvider{}
-	f, err := ioutil.TempFile("", "test-file")
+	f, err := os.CreateTemp("", "test-file")
 	if err != nil {
 		t.Fatal(err)
 	}
