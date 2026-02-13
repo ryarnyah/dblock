@@ -15,7 +15,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.24'
+          go-version: '1.26'
       - name: Build
         run: |
           make dev-dependencies
